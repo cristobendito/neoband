@@ -23,10 +23,8 @@ const userSchema = new mongoose.Schema({
         default: "user"
 
     },
-    bio :{ 
-    type: String,
+    bio: String,
     profilePicture: String,
-    },
 
 })
 

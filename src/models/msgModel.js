@@ -1,22 +1,19 @@
 import mongoose from "mongoose";
 
 const msgSchema = new mongoose.Schema({
-    id_msg :{
+
+    emisor :{
         type: String,
         required: true,
-        unique: true
 
     },
-    send :{
+
+    receptor :{
         type: String,
         required: true,
-        unique: true
 
     },
-    receive :{
-        type: String,
-        required: true,
-    },
+    
     content :{
         type: String,
         required: true,
