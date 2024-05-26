@@ -1,7 +1,7 @@
 import connectDB from "../src/config/mongo.js";
 import mongoose from 'mongoose';
 import bandController from "../src/controllers/bands/bandController.js";
-import bandModel from "../src/models/bandModel.js";
+/* import bandModel from "../src/models/bandModel.js"; */
 
 const bandData = {
     bandname: "bandaEjemplo",

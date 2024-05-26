@@ -36,11 +36,6 @@ const create = async(req,res)=>{
     res.json({data:comment})
 }
 
-const update = async(req,res)=>{
-    const id =req.params.id;
-    const comment = await commentController.update(id,req.body);
-    res.json({data:comment})
-}
 
 const remove = async(req,res)=>{
     const id= req.params.id;
@@ -55,7 +50,6 @@ export default{
     login,
     register,
     create,
-    update,
     remove
 }
 

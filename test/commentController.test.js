@@ -1,34 +1,53 @@
 import connectDB from "../src/config/mongo.js";
 import mongoose from 'mongoose';
-import commentController from "../src/controllers/commentController.js";
+import commentController from "../src/controllers/comments/commentController.js";
 import bandController from "../src/controllers/bands/bandController.js";
 import userController from "../src/controllers/users/userController.js";
 import Comment from "../src/models/commentModel.js";
-import User from "../src/models/userModel.js";
+import userModel from "../src/models/userModel.js"; 
+
 
 describe("Test commentController", () => {
     let bandId, userId;
 
     beforeAll(async () => {
+        
         await connectDB();
+    // Crear una banda  
+    const bandData = { 
+        bandname: "Nombre Banda",
+        profilePicture: "http://example.com/profile.jpg",
+        password: "1234",
+        email: "band@example.com"
+    };
 
-        // Crear una banda  
-        const bandData = { 
-            bandname: "Nombre de la Banda",
-            profilePicture: "http://example.com/profile.jpg",
-            password: "securepassword",
-            email: "band@example.com"
-        };
-        const band = await bandController.create(bandData);
-        bandId = band._id;
+    // Verificar si la banda ya existe
+    let existingBand = await bandController.getByEmail(bandData.email);
+    if (existingBand) {
+        // Si la banda existe, borrarla
+        await bandController.remove(existingBand._id);
+    }
+
+    // Crear una nueva banda
+    const band = await bandController.create(bandData);
+    bandId = band._id;
 
         // Crear un usuario que comentará en perfil banda
         const userData = { 
             email: "correo@ejemplo.com", 
-            username: "usuario",
-            password: "securepassword",
+            username: "dinosaurio",
+            password: "1234",
             profilePicture: "http://example.com/userprofile.jpg"
         };
+
+        // Verificar si el usuario ya existe
+        let existingUser = await userController.getByUsername(userData.username);
+        if (existingUser) {
+            // Si el usuario existe, borrarlo
+            await userController.remove(existingUser._id);
+        }
+
+        // Crear un nuevo usuario
         const user = await userController.create(userData);
         userId = user._id;
 

@@ -1,7 +1,5 @@
-import commentModel from "../models/commentModel.js";
-import userModel from "../models/userModel.js";
-import bandModel from "../models/bandModel.js";
-
+import commentModel from '../../models/commentModel.js';
+import userModel from '../../models/userModel.js';
 const getAll = async (userId) => {
     try {
         const comments = await commentModel.find({ user: userId });
@@ -50,15 +48,6 @@ const create = async (data) => {
     }
 }
 
-const update = async (id, data) => {
-    try {
-        const comment = await commentModel.findByIdAndUpdate(id, data, { new: true });
-        return comment;
-    } catch (error) {
-        console.error(error);
-        return null;
-    }
-}
 
 const remove = async (id) => {
     try {
@@ -90,7 +79,6 @@ export const functions = {
     getByProperty,
     getByUserId,
     create,
-    update,
     remove,
     getCommentsByBand
 }
