@@ -1,7 +1,8 @@
-import { Router } from "express";
+import {Router} from "express";
+
 import userApiController from "../controllers/users/userApiController.js";
 
-const userRouter = Router();
+const router = Router();
 
 router.get("/", userApiController.getAll);
 router.get("/byproperty", userApiController.getByProperty);
@@ -11,4 +12,4 @@ router.put("/:id", userApiController.update);
 router.delete("/:id", userApiController.remove);
 
 
-export default userRouter;
+export default router;

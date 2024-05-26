@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+/* import jwt from "jsonwebtoken";
 import userController  from "../controllers/users/userController.js";
 
 const isAuthenticated = async(req,res,next)=>{
@@ -51,4 +51,4 @@ const isAdmin = async(req,res,next)=>{
 export {
     isAuthenticated,
     isAdmin
-}
+} */
