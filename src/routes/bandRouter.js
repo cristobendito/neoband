@@ -1,7 +1,8 @@
-import { Router } from "express";
+import {Router} from "express";
+
 import bandApiController from "../controllers/bands/bandApiController.js";
 
-const bandRouter = Router();
+const router = Router();
 
 router.get("/", bandApiController.getAll);
 router.get("/byproperty", bandApiController.getByProperty);
@@ -11,4 +12,4 @@ router.put("/:id", bandApiController.update);
 router.delete("/:id", bandApiController.remove);
 
 
-export default bandRouter;
+export default router;

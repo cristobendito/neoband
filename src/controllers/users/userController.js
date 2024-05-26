@@ -24,28 +24,35 @@ const getById = async(id) =>{
 }
 const getByProperty = async(property,value) =>{
     try {
+        console.log("property",property);
+        console.log("value",value);
         const user = await userModel.find({[property]:value})
         return user;
     } catch (error) {
         return null;
     }
 }
-const register = async(data) =>{
+const register = async(data) => {
     try {
-        const {email,username,password,passwordRepeat} = data;
+        const { email, username, password, passwordRepeat, profilePicture = '' } = data;
         if(!email || !username || !password || !passwordRepeat){
-            return {error:"Todos los campos son obligatorios"};
+            return { error: "Todos los campos son obligatorios" };
         }
         if(password !== passwordRepeat){
-            return {error:"Las contraseñas no coinciden"};
+            return { error: "Las contraseñas no coinciden" };
         }
         const userData = {
             email,
             username,
             password,
-            role:"user"
+            role: "user",
+            profilePicture
+
         }
         const user = await create(userData);
+        if (!user) {
+            return { error: "Error al crear el usuario" };
+        }
         return user;
     } catch (error) {
         console.error(error); 
@@ -56,7 +63,7 @@ const register = async(data) =>{
 const login = async(data) =>{
     const {email,username,password} = data;
     if((!email && !username) || !password){
-        return {error:"Faltan datos"};
+        return {error:"Faltan datos",status:400};
     }
     try{
         let user;
@@ -69,24 +76,24 @@ const login = async(data) =>{
             user = user[0];
         }
         if(!user){
-            return {error:"Usuario no encontrado"};
+            return {error:"Usuario no encontrado",status:400};
         }
 
         const isPasswordCorrect = await bcrypt.compare(password,user.password);
         console.log("Contraseña: ",isPasswordCorrect)
         if(!isPasswordCorrect){
-            return {error:"Contraseña incorrecta"};
+            return {error:"Contraseña incorrecta",status:400};
         }
         const token = jwt.sign({
             _id:user._id,
             username:user.username,
             role:user.role}, 
-            process.env.JWT_SECRET, {expiresIn:"1d"});
+            process.env.JWT_SECRET, {expiresIn:60*60});
         return {token};
     }
     catch(error){
         console.error(error);
-        return {error:"Error al iniciar sesión"}
+        return {error:"Error al iniciar sesión",status:500}
     }
 }
 
@@ -105,12 +112,15 @@ const create = async(data) =>{
 
 const update = async(id,data) =>{
     try {
-        const user = await userModel.findByIdAndUpdate(id,data);
+        const oldUser = await userModel.findByIdAndUpdate(id,data);
+        const user = await userModel.findById(id);
+        console.log("user",user);
         return user;
     } catch (error) {
         console.error(error);
         return null;
     }
+                                                                            
 }
 
 const remove = async(id) =>{
