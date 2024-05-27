@@ -1,0 +1,549 @@
+{
+	"info": {
+		"_postman_id": "5e0f1232-81ca-4dac-944d-471dcdf601cb",
+		"name": "🎵 Neoband",
+		"description": "# 🎸Plataforma de música independiente 🎸\n\n¡Bienvenido a Neoband! 🎉\n\nNeoband es una plataforma en línea diseñada para conectar a fanáticos de la música con bandas independientes. En Neoband, los usuarios pueden descubrir nuevas bandas, escuchar música, interactuar con otras personas y apoyar a sus artistas favoritos.\n\n## Características principales:\n\n### Perfiles de usuarios y bandas\n\n- Los usuarios pueden crear perfiles personalizados para acceder a todas las características de la plataforma.\n- Las bandas pueden registrar perfiles para compartir su música y conectarse con los fans.\n    \n\n### Exploración y descubrimiento\n\n- Los usuarios pueden explorar una amplia variedad de géneros musicales y descubrir nuevas bandas independientes.\n- La función de recomendaciones ofrece sugerencias personalizadas basadas en las preferencias de escucha del usuario.\n    \n\n### Comentarios y reseñas\n\n- Los **usuarios** pueden **dejar comentarios y reseñas** en los **perfiles** de las **bandas** para compartir sus opiniones y experiencias.\n- Las **bandas** pueden **interactuar** directamente con sus **fans respondiendo a los comentarios** y mostrando su aprecio.\n    \n\n### Soporte a artistas\n\n- Los usuarios pueden apoyar a las bandas comprando su música, merchandising u ofreciendo donaciones.\n- Neoband ofrece herramientas y recursos para que las bandas promocionen su música y alcancen a una audiencia más amplia.\n    \n\n## Cómo empezar:\n\n1. **Crear una cuenta:** Regístrate en Neoband para acceder a todas las funciones de la plataforma.\n2. **Explorar música:** Navega por diferentes géneros musicales y descubre nuevas bandas.\n3. **Interactuar:** Deja comentarios y reseñas en los perfiles de las bandas para compartir tus pensamientos y conectarte con otros fans.\n4. **Apoyar a tus artistas favoritos:** ¡Apoya a las bandas independientes comprando su música y compartiendo su trabajo con tus amigos!\n    \n\n¡Disfruta de la música en Neoband! 🎶",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35104161"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "get users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by property",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/users?property=email&value=mimail@mail.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "property",
+									"value": "email"
+								},
+								{
+									"key": "value",
+									"value": "mimail@mail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"knuckles@mail.com\",\n    \"username\":\"knuckles\",\n    \"password\":\"1234\",\n    \"role\":\"admin\",\n    \"profilePicture\":\"http://example.com/tontoelquelolea.jpg\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"belenn@mail.com\",\n    \"username\":\"belenn\",\n    \"password\":\"1234\",\n    \"passwordRepeat\":\"1234\",\n    \"role\":\"admin\",\n    \"profilePicture\":\"http://example.com/tontoelquelolea.jpg\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU0YzBmZmYwNzQ2YTZkMWI0ZjgxNjYiLCJ1c2VybmFtZSI6InNoYXJtZW4iLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjgzNTQ3NCwiZXhwIjoxNzE2ODM5MDc0fQ.X1KNAofc9FU2EwyCQ2y3CCpEURS152V5NQaHRVsRljw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"belenn@mail.com\",\n    \"username\":\"belenn\",\n    \"password\":\"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjU0ZTI1YzdmZGEzZjljMGM5NjY5NTIiLCJ1c2VybmFtZSI6ImJlbGVubiIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTcxNjgzOTA3MywiZXhwIjoxNzE2ODQyNjczfQ.sNyIWPOQnJZV0Sc8ZWOQYmFL772uPiXPQa7bWphzNpg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"PacaLaPiraña\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/66538b656f9fbbc273fb9cd3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"66538b656f9fbbc273fb9cd3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users/665393a377ed78321e248ef6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users",
+								"665393a377ed78321e248ef6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bands",
+			"item": [
+				{
+					"name": "get band",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bands/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by property",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/bands?property=email&value=pagalacoca@mail.com",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands"
+							],
+							"query": [
+								{
+									"key": "property",
+									"value": "email"
+								},
+								{
+									"key": "value",
+									"value": "pagalacoca@mail.com"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create band",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bandname\":\"te odio\",\n    \"email\":\"odio@mail.com\",\n    \"password\":\"1234\",\n    \"profilePicture\":\"http://example.com/a.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bands",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "register band",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bandname\": \"camara obscura\",\n    \"email\": \"0000@mail.com\",\n    \"password\": \"1234\",\n    \"passwordRepeat\":\"1234\",\n    \"profilePicture\":\"http://example.com/3a.jpg\" \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bandRegister",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bandRegister"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login band",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"ayama@mail.com\",\n    \"password\": \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bandLogin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bandLogin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update band",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bandname\":\"manteca\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bands/6653c241dd1a107524f159d8",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								"6653c241dd1a107524f159d8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del band",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/bands/6654ac2d277d43abc8de1f14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								"6654ac2d277d43abc8de1f14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comments",
+			"item": [
+				{
+					"name": "get comment",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/bands/:id/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								":id",
+								"comments"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get by property",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/bands/comments?property=id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "property",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/bands/comments",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								"comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "del comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/bands/comments?value=id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"bands",
+								"comments"
+							],
+							"query": [
+								{
+									"key": "value",
+									"value": "id"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "base_url",
+			"value": "http://localhost:3015/api",
+			"type": "string"
+		}
+	]
+}
