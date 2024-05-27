@@ -8,17 +8,21 @@ const bandSchema = new mongoose.Schema({
         unique: true
 
     },
-    bio :{
+    email :{
         type: String,
         required: true,
         unique: true
 
     },
+    password :{
+        type: String,
+        required: true,
+    },
+    bio : String,
+    
     profilePicture :{
         type: String,
         required: true,
-        unique: true
-
     },
 
 })

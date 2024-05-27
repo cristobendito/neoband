@@ -19,15 +19,22 @@ const userSchema = new mongoose.Schema({
     },
     role :{
         type: String,
-        enum: ["user","band"],
+        enum: ["user","admin"],
         default: "user"
 
     },
-    bio :{ 
-    type: String,
-    profilePicture: String,
-    },
+    bio: String,
 
+    profilePicture :{
+        type: String,
+        required: true,
+    },
+    comments:[
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref:"comments"
+        }
+    ]
 })
 
 

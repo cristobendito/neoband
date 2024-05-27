@@ -1,0 +1,775 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Neoband API",
+      "description": "API documentation for Neoband project",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/bands": {
+        "get": {
+          "summary": "Get all bands",
+          "responses": {
+            "200": {
+              "description": "A list of bands",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Band"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new band",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Band"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Band created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Band"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/bands/{id}": {
+        "get": {
+          "summary": "Get a band by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single band",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Band"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Band not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a band by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Band"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Band updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Band"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a band by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Band deleted"
+            },
+            "404": {
+              "description": "Band not found"
+            }
+          }
+        }
+      },
+      "/bands/login": {
+        "post": {
+          "summary": "Login a band",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "bandname": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "password"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      },
+      "/bands/register": {
+        "post": {
+          "summary": "Register a new band",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "bandname": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "passwordRepeat": {
+                      "type": "string"
+                    },
+                    "profilePicture": {
+                      "type": "string",
+                      "default": ""
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "bandname",
+                    "password",
+                    "passwordRepeat"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Band registered",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Band"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input data"
+            }
+          }
+        }
+      },
+      "/users": {
+        "get": {
+          "summary": "Get all users",
+          "responses": {
+            "200": {
+              "description": "A list of users",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/users/{id}": {
+        "get": {
+          "summary": "Get a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single user",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "User updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a user by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "User deleted"
+            },
+            "404": {
+              "description": "User not found"
+            }
+          }
+        }
+      },
+      "/users/login": {
+        "post": {
+          "summary": "Login a user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "password"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login successful",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "token": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid credentials"
+            }
+          }
+        }
+      },
+      "/users/register": {
+        "post": {
+          "summary": "Register a new user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string"
+                    },
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "passwordRepeat": {
+                      "type": "string"
+                    },
+                    "profilePicture": {
+                      "type": "string",
+                      "default": ""
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "username",
+                    "password",
+                    "passwordRepeat"
+                  ]
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "User registered",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Invalid input data"
+            }
+          }
+        }
+      },
+      "/comments": {
+        "get": {
+          "summary": "Get all comments",
+          "responses": {
+            "200": {
+              "description": "A list of comments",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "post": {
+          "summary": "Create a new comment",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Comment created",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/comments/{id}": {
+        "get": {
+          "summary": "Get a comment by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A single comment",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Comment not found"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a comment by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Comment updated",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Comment"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a comment by ID",
+          "parameters": [
+            {
+              "name": "id",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Comment deleted"
+            },
+            "404": {
+              "description": "Comment not found"
+            }
+          }
+        }
+      },
+      "/comments/user/{userId}": {
+        "get": {
+          "summary": "Get comments by user ID",
+          "parameters": [
+            {
+              "name": "userId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of comments",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "/comments/band/{bandId}": {
+        "get": {
+          "summary": "Get comments by band ID",
+          "parameters": [
+            {
+              "name": "bandId",
+              "in": "path",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "A list of comments",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/Comment"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Band": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The auto-generated id of the band"
+            },
+            "bandname": {
+              "type": "string",
+              "description": "Name of the band"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email of the band"
+            },
+            "password": {
+              "type": "string",
+              "description": "Password of the band"
+            },
+            "bio": {
+              "type": "string",
+              "description": "Bio of the band"
+            },
+            "profilePicture": {
+              "type": "string",
+              "description": "Profile picture URL of the band"
+            }
+          },
+          "required": [
+            "bandname",
+            "email",
+            "password",
+            "profilePicture"
+          ]
+        },
+        "User": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The auto-generated id of the user"
+            },
+            "username": {
+              "type": "string",
+              "description": "Username of the user"
+            },
+            "email": {
+              "type": "string",
+              "description": "Email of the user"
+            },
+            "password": {
+              "type": "string",
+              "description": "Password of the user"
+            },
+            "bio": {
+              "type": "string",
+              "description": "Bio of the user"
+            },
+            "profilePicture": {
+              "type": "string",
+              "description": "Profile picture URL of the user"
+            }
+          },
+          "required": [
+            "username",
+            "email",
+            "password",
+            "profilePicture"
+          ]
+        },
+        "Comment": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The auto-generated id of the comment"
+            },
+            "user": {
+              "type": "string",
+              "description": "ID of the user who made the comment"
+            },
+            "band": {
+              "type": "string",
+              "description": "ID of the band being commented on"
+            },
+            "content": {
+              "type": "string",
+              "description": "Content of the comment"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time",
+              "description": "Date and time the comment was created"
+            }
+          },
+          "required": [
+            "user",
+            "band",
+            "content"
+          ]
+        }
+      }
+    }
+  }
+  
