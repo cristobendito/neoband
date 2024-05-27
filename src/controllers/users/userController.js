@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 
-const getAll = async()=> {
+const getAll = async () => {
     try {
         const users = await userModel.find();
         return users;
@@ -12,42 +12,43 @@ const getAll = async()=> {
         return [];
     }
 }
-const getById = async(id) =>{
+
+const getById = async (id) => {
     try {
         const user = await userModel.findById(id);
         return user;
     } catch (error) {
         console.error(error);
         return null;
-        
     }
 }
-const getByProperty = async(property,value) =>{
+
+const getByProperty = async (property, value) => {
     try {
-        console.log("property",property);
-        console.log("value",value);
-        const user = await userModel.find({[property]:value})
+        console.log("property", property);
+        console.log("value", value);
+        const user = await userModel.find({ [property]: value });
         return user;
     } catch (error) {
         return null;
     }
 }
-const register = async(data) => {
+
+const register = async (data) => {
     try {
-        const { email, username, password, passwordRepeat, profilePicture = '' } = data;
-        if(!email || !username || !password || !passwordRepeat){
+        const { email, username, password, passwordRepeat, profilePicture = '' , role = 'user'} = data;
+        if (!email || !username || !password || !passwordRepeat) {
             return { error: "Todos los campos son obligatorios" };
         }
-        if(password !== passwordRepeat){
+        if (password !== passwordRepeat) {
             return { error: "Las contraseñas no coinciden" };
         }
         const userData = {
             email,
             username,
             password,
-            role: "user",
+            role,
             profilePicture
-
         }
         const user = await create(userData);
         if (!user) {
@@ -55,75 +56,75 @@ const register = async(data) => {
         }
         return user;
     } catch (error) {
-        console.error(error); 
-        return null;  
+        console.error(error);
+        return null;
     }
 }
 
-const login = async(data) =>{
-    const {email,username,password} = data;
-    if((!email && !username) || !password){
-        return {error:"Faltan datos",status:400};
+const login = async (data) => {
+    const { email, username, password } = data;
+    if ((!email && !username) || !password) {
+        return { error: "Faltan datos", status: 400 };
     }
-    try{
+    try {
         let user;
-        if(email){
-        user = await getByProperty("email",email);
-        user = user[0];
+        if (email) {
+            user = await getByProperty("email", email);
+        } else {
+            user = await getByProperty("username", username);
         }
-        else{
-            user = await getByProperty("username",username);
-            user = user[0];
-        }
-        if(!user){
-            return {error:"Usuario no encontrado",status:400};
+        if (!user || user.length === 0) {
+            return { error: "Usuario no encontrado", status: 400 };
         }
 
-        const isPasswordCorrect = await bcrypt.compare(password,user.password);
-        console.log("Contraseña: ",isPasswordCorrect)
-        if(!isPasswordCorrect){
-            return {error:"Contraseña incorrecta",status:400};
+        user = user[0];
+
+        const isPasswordCorrect = await bcrypt.compare(password, user.password);
+        console.log("Contraseña correcta: ", isPasswordCorrect);
+        if (!isPasswordCorrect) {
+            return { error: "Contraseña incorrecta", status: 400 };
         }
         const token = jwt.sign({
-            _id:user._id,
-            username:user.username,
-            role:user.role}, 
-            process.env.JWT_SECRET, {expiresIn:60*60});
-        return {token};
-    }
-    catch(error){
-        console.error(error);
-        return {error:"Error al iniciar sesión",status:500}
+            _id: user._id,
+            username: user.username,
+            role: user.role
+        },
+            process.env.JWT_SECRET, { expiresIn: 60 * 60 });
+
+        return { token };
+    } catch (error) {
+        console.error("Error en login: ", error);
+        return { error: "Error al iniciar sesión", status: 500 };
     }
 }
 
-const create = async(data) =>{
+const create = async (data) => {
     try {
-        const hash = await bcrypt.hash(data.password,10);
+        const hash = await bcrypt.hash(data.password, 10);
         data.password = hash;
         const user = await userModel.create(data);
         return user;
     } catch (error) {
-        console.error(error); 
-        console.log("error no se pudo crear user");
-        return null;  
+        console.error(error);
+        console.log("Error no se pudo crear user");
+        return null;
     }
 }
 
-const update = async(id,data) =>{
+const update = async (id, data) => {
     try {
-        const oldUser = await userModel.findByIdAndUpdate(id,data);
+        const oldUser = await userModel.findByIdAndUpdate(id, data);
         const user = await userModel.findById(id);
-        console.log("user",user);
+        console.log("user", user);
         return user;
     } catch (error) {
         console.error(error);
         return null;
     }
-                                                                            
+
 }
 
-const remove = async(id) =>{
+const remove = async (id) => {
     try {
         const user = await userModel.findByIdAndDelete(id);
         return user;
@@ -133,14 +134,14 @@ const remove = async(id) =>{
     }
 }
 
-const addComment = async(userId,commentId)=>{
+const addComment = async (userId, commentId) => {
     try {
         const user = await getById(userId);
         console.log(user)
-        if (user.comments===undefined){
+        if (user.comments === undefined) {
             user.comments = [];
         }
-        if(!user.comments.includes(commentId)){
+        if (!user.comments.includes(commentId)) {
             user.comments.push(commentId);
             await user.save();
             return user;
@@ -149,13 +150,14 @@ const addComment = async(userId,commentId)=>{
         return user;
     } catch (error) {
         console.error(error);
-        return {error:"no se ha podido añadir el comentario"};
+        return { error: "No se ha podido añadir el comentario" };
     }
 }
-const removecomment = async(userId,commentId)=>{
+
+const removeComment = async (userId, commentId) => {
     try {
         const user = await getById(userId);
-        if(user.comments.includes(commentId)){
+        if (user.comments.includes(commentId)) {
             user.comments = user.comments.filter(p => !p.equals(commentId));
             await user.save();
             return user;
@@ -163,9 +165,8 @@ const removecomment = async(userId,commentId)=>{
         return user;
     } catch (error) {
         console.error(error);
-        return {error:"no se ha podido borrar el comentario"};
+        return { error: "No se ha podido borrar el comentario" };
     }
-
 }
 
 export const functions = {
@@ -178,7 +179,7 @@ export const functions = {
     update,
     remove,
     addComment,
-    removecomment
+    removeComment
 }
 
 export default functions;

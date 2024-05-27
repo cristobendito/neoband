@@ -1,5 +1,7 @@
 import bandModel from "../../models/bandModel.js";
-import userApiController from "../users/userApiController.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+
 
 const getAll = async()=> {
     try {
@@ -13,43 +15,42 @@ const getAll = async()=> {
 const getById = async(id) =>{
     try {
         const band = await bandModel.findById(id);
-        
         return band;
     } catch (error) {
         console.error(error);
         return null;
+        
     }
 }
-
-
 const getByProperty = async(property,value) =>{
     try {
-        const comment = await bandModel.find({[property]:value})
-        return comment;
+        console.log("property",property);
+        console.log("value",value);
+        const band = await bandModel.find({[property]:value})
+        return band;
     } catch (error) {
         return null;
     }
 }
 const register = async(data) => {
     try {
-        const { bandname, email, password, passwordRepeat } = data;
-        if(!bandname || !email || !password || !passwordRepeat){
+        const { email, bandname, password, passwordRepeat, profilePicture = '' } = data;
+        if(!email || !bandname || !password || !passwordRepeat){
             return { error: "Todos los campos son obligatorios" };
         }
         if(password !== passwordRepeat){
             return { error: "Las contraseñas no coinciden" };
         }
         const bandData = {
-            bandname,
             email,
+            bandname,
             password,
-            bio,
             profilePicture
 
         }
         const band = await create(bandData);
         if (!band) {
-            return { error: "Error al crear el banda" };
+            return { error: "Error al crear el usuario" };
         }
         return band;
     } catch (error) {
@@ -59,8 +60,8 @@ const register = async(data) => {
 }
 
 const login = async(data) =>{
-    const {bandname,email,password} = data;
-    if((!bandname && !email) || !password){
+    const {email,bandname,password} = data;
+    if((!email && !bandname) || !password){
         return {error:"Faltan datos",status:400};
     }
     try{
@@ -83,9 +84,9 @@ const login = async(data) =>{
             return {error:"Contraseña incorrecta",status:400};
         }
         const token = jwt.sign({
-            _id:band._id,
-            bandname:band.bandname
-            }, 
+            _id: band._id,
+            bandname: band.bandname,
+            email: band.email}, 
             process.env.JWT_SECRET, {expiresIn:60*60});
         return {token};
     }
@@ -95,23 +96,22 @@ const login = async(data) =>{
     }
 }
 
-
 const create = async(data) =>{
     try {
+        const hash = await bcrypt.hash(data.password,10);
+        data.password = hash;
         const band = await bandModel.create(data);
-/*         cooments.users.push(data,owner); */
-/*         await comment.save();
-        await userController.addComment(data,owner); */
         return band;
     } catch (error) {
         console.error(error); 
+        console.log("Error no se pudo crear band");
         return null;  
     }
 }
 
 const update = async(id,data) =>{
     try {
-        const oldBand = await bandModel.findByIdAndUpdate(id,data);
+        const oldband = await bandModel.findByIdAndUpdate(id,data);
         const band = await bandModel.findById(id);
         console.log("band",band);
         return band;
@@ -121,6 +121,7 @@ const update = async(id,data) =>{
     }
                                                                             
 }
+
 const remove = async(id) =>{
     try {
         const band = await bandModel.findByIdAndDelete(id);
@@ -131,6 +132,8 @@ const remove = async(id) =>{
     }
 }
 
+
+
 export const functions = {
     getAll,
     getById,
@@ -139,8 +142,43 @@ export const functions = {
     login,
     create,
     update,
-    remove,
+    remove
 }
 
 export default functions;
 
+/* 
+const update = async (id, data) => {
+    try {
+        const oldBand = await bandModel.findByIdAndUpdate(id, data);
+        const band = await bandModel.findById(id);
+        console.log("band", band);
+        return band;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+const remove = async (id) => {
+    try {
+        const band = await bandModel.findByIdAndDelete(id);
+        return band;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const functions = {
+    getAll,
+    getById,
+    getByProperty,
+    register,
+    login,
+    create,
+    update,
+    remove
+};
+
+export default functions; */

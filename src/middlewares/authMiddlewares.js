@@ -1,4 +1,4 @@
-/* import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import userController  from "../controllers/users/userController.js";
 
 const isAuthenticated = async(req,res,next)=>{
@@ -18,7 +18,7 @@ const isAuthenticated = async(req,res,next)=>{
         
     } catch (error) {
         console.error(error);
-        return res.status(500).json({error:"ha habido un error"});
+        return res.status(500).json({error:"Ha habido un error"});
     }
 
 }
@@ -26,7 +26,7 @@ const isAuthenticated = async(req,res,next)=>{
 const isAdmin = async(req,res,next)=>{
     const authorization  =req.headers.authorization;
     if(!authorization){
-        return res.status(401).json({error:"no hay token jwt"});
+        return res.status(401).json({error:"No hay token jwt"});
     }
     try {
         const token = authorization.split("Bearer ")[1];
@@ -51,4 +51,4 @@ const isAdmin = async(req,res,next)=>{
 export {
     isAuthenticated,
     isAdmin
-} */
+}
