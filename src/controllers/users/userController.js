@@ -163,7 +163,7 @@ const removecomment = async(userId,commentId)=>{
         return user;
     } catch (error) {
         console.error(error);
-        return {error:"no se ha podido añadir el comentario"};
+        return {error:"no se ha podido borrar el comentario"};
     }
 
 }

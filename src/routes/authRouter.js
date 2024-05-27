@@ -7,8 +7,8 @@ const router = Router();
 
 router.post("/register", userApiController.register);
 router.post("/login", userApiController.login);
-router.post("/register", bandApiController.register);
-router.post("/login", bandApiController.login);
+router.post("/bandRegister", bandApiController.register);
+router.post("/bandLogin", bandApiController.login);
 
 
 export default router;

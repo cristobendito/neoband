@@ -1,4 +1,5 @@
 import bandModel from "../../models/bandModel.js";
+import userApiController from "../users/userApiController.js";
 
 const getAll = async()=> {
     try {
@@ -31,8 +32,8 @@ const getByProperty = async(property,value) =>{
 }
 const register = async(data) => {
     try {
-        const { bandname, email, password, passwordRepeat, bio, profilePicture = '' } = data;
-        if(!bandname || !email || !password || !passwordRepeat || !bio || !profilePicture){
+        const { bandname, email, password, passwordRepeat } = data;
+        if(!bandname || !email || !password || !passwordRepeat){
             return { error: "Todos los campos son obligatorios" };
         }
         if(password !== passwordRepeat){
@@ -98,6 +99,9 @@ const login = async(data) =>{
 const create = async(data) =>{
     try {
         const band = await bandModel.create(data);
+/*         cooments.users.push(data,owner); */
+/*         await comment.save();
+        await userController.addComment(data,owner); */
         return band;
     } catch (error) {
         console.error(error); 
